@@ -65,7 +65,74 @@ Replaced null with 0 (Since these represent "No-Shows," the wait time is effecti
 
 
 ### Dim_Providers (The Provider Dimension)
-1. 
+1. Correct Data Types
+   - Ensure all columns are set to Text.
+2. Clean Whitespace
+   - Select all columns, right-click, and select Transform > Trim to remove any accidental trailing spaces.
+3. Rename the Columns for Consistency
+   - Rename the columns to appear similar to the ones in Fact Table.
+
+### Dim_Dates (The Date Dimension)
+1. Fix Date Formatting
+   - Select APPOINTMENT_DATE and change the type to Date.
+2. Year Formatting
+   - Change YEAR to Whole Number
+3.  Rename the Columns for Consistency
+   -  Rename the columns to appear similar to the ones in Fact Table.
+* Ensure the "Year" column is set to "Don't Summarize" in the Power BI report view.
+
+## Data Visualization
+### Phase 1: The "Power Measures" (DAX)
+1. No-Show Rate (%)
+   - No-Show Rate = DIVIDE(SUM('Fact_Appointments'[Is_No_Show]), COUNT('Fact_Appointments'[Appointment_Id]))
+2. Avg Wait Time (Minutes)
+   - Avg Wait Time = AVERAGE('Fact_Appointments'[Wait_Time_Minutes])
+3. Estimated Revenue Loss (Based on the $1.2M figure and ~26k no-shows)
+   - Revenue Loss = SUM('Fact_Appointments'[Is_No_Show]) * 45
+4. Provider Utilization Index (Total appts per provider vs. average)
+   - Provider Load = COUNT('Fact_Appointments'[Appointment_Id])
+
+### Phase 2: Dashboard Layout Design
+#### Page 1: Executive Overview
+1. KPI Cards (Top Row)
+   a. Current No-Show Rate. "Conditional Formatting"
+   - Select No-Show Rate Card > Format Visual pane > Callout value > Color and click the fx icon > Set up the rules
+- If value >= 0 and < 0.13 (13%) $\rightarrow$ Green (Goal Met)
+- If value >= 0.13 and < 0.20 (20%) $\rightarrow$ Amber (Warning)
+- If value >= 0.20 $\rightarrow$ Red (Critical - $1.2M Loss)
+  b. Avg Wait Time (Target: 15 min)
+  - * Create an "Actual Wait Time" Measure
+    * Actual Avg Wait Time = CALCULATE(AVERAGE('Fact_Appointments'[Wait_Time_Minutes]), 'Fact_Appointments'[Is_No_Show] = 0)
+  - Reason for creating this new measure is;
+  - As a result of the cleaning step where we replaced null values with 0
+  - (To reduce wait times from 45 minutes to 15 minutes, we are likely referring to the experience of the patients who actually walk in the door. Including No-Shows as "0 minutes" artificially drags our average down and makes the clinics look like they are performing better than they actually are using avg wait time)
+  c. Total Revenue Loss (A big red number to drive urgency)
+2. The "Matrix" (Middle)
+- Visual-Matrix.
+- Rows-Clinic Name
+- Columns-Day of Week.
+- Values-No-Show Rate.
+- * To arrange the Days of the Week in order (instead of alphabetically)
+  * Create a Day Number Column
+  * Table View > Select Dim_Dates table > New Column > (Day Order = WEEKDAY('Dim_Dates'[Appointment_Date], 2)) > column header for Day_of_Week > Column Tools tab > Sort by Column > Day Order from the dropdown list
+    d. Clustered Column Chart
+    - X-Axis-Month_Name
+    - Y-Axis-No Show Rate
+    - Legend-Year
+      
+#### Page 2: AI Analysis(No-Show & Flow Analysis)
+1. Scatter Chart
+   - Lead Time Days (X-axis)
+   - No-Show Rate (Y-axis)
+2. Wait Time vs. No-Show Correlation (Scatter Chart)
+   - Visual-Scatter Chart.
+   - X-Axis-Actual Avg Wait Time.
+   - Y-Axis-No-Show Rate
+   - Values-Clinic_Name
+3. 
+
+
+  
 
 
 
