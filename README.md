@@ -134,7 +134,8 @@ Replaced null with 0 (Since these represent "No-Shows," the wait time is effecti
       
 #### Page 2: AI Analysis(No-Show & Flow Analysis)
 1. Scatter Chart
-   - Lead Time Days (Values)
+   - Lead Time Days (X-axis)
+   - * click the small down-arrow next to Lead_time_days > Select "Don't Summarize"
    - No-Show Rate (Y-axis)
 2. Wait Time vs. No-Show Correlation (Scatter Chart)
    - Visual-Scatter Chart.
