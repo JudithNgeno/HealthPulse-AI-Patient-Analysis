@@ -143,13 +143,30 @@ Replaced null with 0 (Since these represent "No-Shows," the wait time is effecti
    - Y-Axis-No-Show Rate
    - Values-Clinic_Name
    - * Add two Median lines for no show rate and actual avg time so that lines will automatically recalculate if you filter the data
-     * Select the Chart > Open the Analytics Pane(magnifying glass icon) > Median (Because a scatter chart has two numeric axes, the Analytics pane asks which "Series" you want the median for)
-     * Line 1 (X-Axis): Add a Median line and set the Series to Actual Avg Wait Time. This creates the vertical line at 21.32.
-     * Line 2 (Y-Axis): Clicked "+ Add" again to create "Median line 2" and set that Series to No Show Rate. This creates the horizontal line at 17.65%.
+     * Select the Chart > Open the Analytics Pane(magnifying glass icon)
+     * Add the X-Axis Median (Wait Time) > Find Median line in the list and click the arrow to expand it > + Add > Measure: Ensure it says "Actual Avg Wait Time."
+     * Color: Choose a light grey or a dashed line so it doesn't clutter the view.
+     * Data Label: Turn this On
+     * Add the Y-Axis Median (No-Show Rate) > + Add again in that same Median line section > Measure: This time, change the dropdown to your No-Show Rate measure.
+     * Now we have our crosshair on your chart!
    - NOTE The No Show Rate don't match because, if we have a few very large clinics with no-show rates higher than the rest of the group, our Executive Overview (Mean) will be higher than your Scatter Chart in our AI-Analysis (Median).
    - Essentially, the 17.79% tells us the "Real World" performance of the whole organization, while the 17.65% tells us where the "Typical" clinic sits relative to its peers.
-3.  
-
+3.  Line and Clustered Column Chart
+   - X-axis: Drag Specialty.
+   - Column y-axis (Left side): Drag Actual Avg Wait Time.
+   - Line y-axis (Right side): Drag No-Show Rate.
+4. Age Binning & Risk Profile (Stacked Column Chart)
+   - The Goal: To create the "Risk Profile" for the predictive model.
+   - X-Axis: Age Group (The 0-18, 19-35 column we created).
+   - Y-Axis: Total Appointments.
+   - Legend: IS_NO_SHOW.
+   - Insight: Which age demographic is the "highest risk"? This is a key feature for the Trained No-Show Model deliverable.
+5. Insurance & Socio-Economic Impact (Donut Chart)
+   - The Goal: Governance and alignment.
+   - Visual: Donut Chart.
+   - Values: No-Show Rate.
+   - Legend: Insurance Type.
+   - Insight: Are no-shows driven by financial barriers (e.g., specific insurance providers)? This helps Dr. Martinez with "Organizational Alignment" regarding patient accessibility.
 
   
 
