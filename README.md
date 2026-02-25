@@ -168,6 +168,56 @@ Replaced null with 0 (Since these represent "No-Shows," the wait time is effecti
    - Legend: Insurance Type.
    - Insight: Are no-shows driven by financial barriers (e.g., specific insurance providers)? This helps Dr. Martinez with "Organizational Alignment" regarding patient accessibility.
 
+#### Page 3:Provider Utilization & Staffing Balance
+1.  The Utilization Matrix (Core Deliverable)
+   - The Goal: Spot the 95% (burnout) and 40% (waste) providers instantly.
+   - Visual: Matrix.
+   - Rows: Provider Name or Clinic Name.
+   - Columns: Day of Week or Hour of Day.
+   - Values:Utilization %
+   - Utilization % = DIVIDE(COUNT('Fact_Appointments'[Appointment_Id]), SUM('Dim_Clinics'[Clinic_Capacity]))
+###### 🛠️ Generation of Clinic_capacity in Dim_Clinics Table
+Since the source system does not provide physical capacity limits, a synthetic benchmark was generated:
+-  To get the Clinic Capacity, I used a Python script to generate reproducible "synthetic" numbers.
+-  Since the original data didn't have a capacity limit, I created one so as could calculate Utilization %.
+-  I used the numpy library to generate random numbers between 80 and 150.
+-  By setting a "Seed" (42), I ensured that the numbers don't change every time the code runs—meaning "Cardiology" always gets the same capacity.
+- **Method:** Deterministic Random Generation.
+- **Range:** [80 - 150] patients per day.
+- **Logic:** Applied via Python (numpy.random) during the ETL phase to ensure a stable denominator for the `Utilization %` measure. 
+- **Validation:** Capacities were cross-referenced with average daily appointment counts to ensure no clinic had a >200% baseline utilization.
+```
+import pandas as pd
+import numpy as np
+
+# 1. Start with your unique list of clinics
+# 2. Set the seed so the 'random' numbers are always the same
+np.random.seed(42)
+# 3. Generate a random integer between 80 and 150 for every clinic
+# If we have 15 clinics, it creates 15 numbers.
+dim_clinics['Clinic_capacity'] = np.random.randint(80, 150, size=len(dim_clinics))
+```
+- Create a Utilization by Specialty measure in our Fact_Appointments Table
+- Utilization_by_Specialty = CALCULATE([Utilization %], CROSSFILTER(Fact_Appointments[Clinic_Id], Dim_Clinics[Clinic_Id], Both))
+
+2. Provider Load vs. Wait Time (Dual Axis Chart)
+   - The Goal: Prove that the 95% utilization is what's causing the 45-minute wait times.
+   - Visual: Line and Clustered Column Chart.
+   - X-Axis: Specialty
+   - Column Y-Axis: Utilization by Specialty.
+   - Line Y-Axis: Actual Avg Wait Time.
+   - Insight: We will likely see that as Utilization crosses 85%, Wait Times skyrocket. This helps Dr. Martinez justify shifting patients to the "40% utilization" doctors.
+
+3. KPI Benchmarking: No-Show Threshold
+   - A performance target was established to align with the HealthPulse AI goal of operational efficiency,
+   - Target Value: 12% (Industry standard for urban clinics).
+   - Implementation: Defined via a static DAX measure `[Target_NoShow_Rate]` and mapped to the Gauge 'Target' property.
+   - Visual Logic: The Gauge provides an immediate 'At-a-Glance' status. If the needle exceeds the 12% target line, it triggers a 'High Priority' status for clinic management review.
+  
+
+
+
+
   
 
 
