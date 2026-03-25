@@ -215,6 +215,10 @@ dim_clinics['Clinic_capacity'] = np.random.randint(80, 150, size=len(dim_clinics
    - Visual Logic: The Gauge provides an immediate 'At-a-Glance' status. If the needle exceeds the 12% target line, it triggers a 'High Priority' status for clinic management review.
   
 
+### Visualization
+
+  
+
 
 
 
