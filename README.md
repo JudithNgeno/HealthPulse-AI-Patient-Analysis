@@ -216,6 +216,14 @@ dim_clinics['Clinic_capacity'] = np.random.randint(80, 150, size=len(dim_clinics
   
 
 ### Visualization
+<img width="1425" height="813" alt="Screenshot 2026-03-25 143022" src="https://github.com/user-attachments/assets/f1fe4317-5248-4344-9025-88c6e5b1c46c" />
+<img width="1424" height="816" alt="Screenshot 2026-03-25 143048" src="https://github.com/user-attachments/assets/8ed8f82e-6843-4ead-b583-1736013dc433" />
+<img width="1425" height="810" alt="Screenshot 2026-03-25 143059" src="https://github.com/user-attachments/assets/6fb4f25d-3ed1-40ba-bc4f-b15c0cd0efe3" />
+<img width="1512" height="815" alt="Screenshot 2026-03-25 143136" src="https://github.com/user-attachments/assets/ca0b4383-4730-4e60-b56b-25b5e26f5c76" />
+
+
+
+
 
   
 
